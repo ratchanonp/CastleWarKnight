@@ -1,0 +1,111 @@
+
+entities.png
+size: 4096, 512
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+Bat/batAttack
+  rotate: false
+  xy: 2, 2
+  size: 640, 64
+  orig: 640, 64
+  offset: 0, 0
+  index: -1
+Bat/batDeath
+  rotate: false
+  xy: 1028, 68
+  size: 640, 64
+  orig: 640, 64
+  offset: 0, 0
+  index: -1
+Bat/batIdle
+  rotate: false
+  xy: 2118, 134
+  size: 512, 64
+  orig: 512, 64
+  offset: 0, 0
+  index: -1
+Golem/golemAttack
+  rotate: false
+  xy: 1796, 266
+  size: 1280, 64
+  orig: 1280, 64
+  offset: 0, 0
+  index: -1
+Golem/golemDeath
+  rotate: false
+  xy: 2, 266
+  size: 1792, 64
+  orig: 1792, 64
+  offset: 0, 0
+  index: -1
+Golem/golemIdle
+  rotate: false
+  xy: 2598, 200
+  size: 768, 64
+  orig: 768, 64
+  offset: 0, 0
+  index: -1
+Knight/knightAttack
+  rotate: false
+  xy: 2, 332
+  size: 3168, 64
+  orig: 3168, 64
+  offset: 0, 0
+  index: -1
+Knight/knightDeath
+  rotate: false
+  xy: 2, 200
+  size: 1440, 64
+  orig: 1440, 64
+  offset: 0, 0
+  index: -1
+Knight/knightIdle
+  rotate: false
+  xy: 1156, 134
+  size: 960, 64
+  orig: 960, 64
+  offset: 0, 0
+  index: -1
+Witch/witchAttack
+  rotate: false
+  xy: 2, 134
+  size: 1152, 64
+  orig: 1152, 64
+  offset: 0, 0
+  index: -1
+Witch/witchDeath
+  rotate: false
+  xy: 3078, 266
+  size: 768, 64
+  orig: 768, 64
+  offset: 0, 0
+  index: -1
+Witch/witchIdle
+  rotate: false
+  xy: 3368, 200
+  size: 448, 64
+  orig: 448, 64
+  offset: 0, 0
+  index: -1
+Wolf/wolfAttack
+  rotate: false
+  xy: 2, 68
+  size: 1024, 64
+  orig: 1024, 64
+  offset: 0, 0
+  index: -1
+Wolf/wolfDeath
+  rotate: false
+  xy: 1444, 200
+  size: 1152, 64
+  orig: 1152, 64
+  offset: 0, 0
+  index: -1
+Wolf/wolfIdle
+  rotate: false
+  xy: 3172, 332
+  size: 768, 64
+  orig: 768, 64
+  offset: 0, 0
+  index: -1
