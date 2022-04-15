@@ -1,0 +1,20 @@
+
+items.png
+size: 2048, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+Logo
+  rotate: false
+  xy: 612, 708
+  size: 561, 190
+  orig: 561, 190
+  offset: 0, 0
+  index: -1
+background
+  rotate: false
+  xy: 2, 2
+  size: 608, 896
+  orig: 608, 896
+  offset: 0, 0
+  index: -1

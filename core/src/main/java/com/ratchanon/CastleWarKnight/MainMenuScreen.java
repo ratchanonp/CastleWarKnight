@@ -18,8 +18,8 @@ public class MainMenuScreen extends ScreenAdapter {
 
     public MainMenuScreen(CastleWarKnight game) {
         this.game = game;
-        camera = new OrthographicCamera(720, 1280);
-        camera.position.set(720 / 2, 1280 / 2, 0);
+        camera = new OrthographicCamera(480, 860);
+        camera.position.set(480 / 2, 860 / 2, 0);
         touchPoint = new Vector3();
     }
 
@@ -38,11 +38,16 @@ public class MainMenuScreen extends ScreenAdapter {
         game.batcher.setProjectionMatrix(camera.combined);
 
         game.batcher.begin();
-        game.batcher.draw(Asset.background, 0, 0, 720, 1280);
-        game.batcher.draw(Asset.logo, 100, 1000);
-        Asset.font.draw(game.batcher, "Tab Screen to begin", 720 / 2, 500, 0, Align.center, true);
+        game.batcher.draw(Asset.background, 0, 0, 480, 860);
+        game.batcher.draw(Asset.logo, 15, 600, Asset.logo.getRegionWidth() * 0.85f, Asset.logo.getRegionHeight() * 0.85f);
+        Asset.font.getData().setScale(0.85f);
+        Asset.font.draw(game.batcher, "Tab Screen to begin", 480 / 2, 200, 0, Align.center, true);
 
         game.batcher.end();
+
+        if (Gdx.input.justTouched()) {
+            game.setScreen(new GameScreen(game));
+        }
 
     }
 

@@ -12,11 +12,12 @@ import com.ratchanon.CastleWarKnight.utils.Animator;
 
 public class Asset {
 
-    public static Texture background;
-    public static Texture logo;
-
+    public static TextureAtlas itemsAtlas;
     public static TextureAtlas castleAtlas;
     public static TextureAtlas entityAtlas;
+    public static TextureRegion background;
+    public static TextureRegion logo;
+
 
     // Castle
     public static TextureRegion castleLevel;
@@ -56,8 +57,9 @@ public class Asset {
     }
 
     public static void load() {
-        background = loadTexture("background.png");
-        logo = loadTexture("logo.png");
+        itemsAtlas = new TextureAtlas(Gdx.files.internal("items.atlas"));
+        background = itemsAtlas.findRegion("background");
+        logo = itemsAtlas.findRegion("Logo");
 
         castleAtlas = new TextureAtlas(Gdx.files.internal("castle.atlas"));
         castleLevel = castleAtlas.findRegion("cUnit");
