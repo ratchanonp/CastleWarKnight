@@ -2,7 +2,7 @@ package com.ratchanon.CastleWarKnight.components;
 
 import com.badlogic.ashley.core.Component;
 
-public class KnightComponent implements Component {
+public class EntityComponent implements Component {
     public static final int STATE_IDLE = 0;
     public static final int STATE_ATTACK = 1;
     public static final int STATE_DEATH = 2;

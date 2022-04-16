@@ -37,7 +37,7 @@ public class GameScreen extends ScreenAdapter {
         engine = new PooledEngine();
         world = new World(engine);
 
-        engine.addSystem(new KnightSystem(world));
+        engine.addSystem(new EntitySystem(world));
         engine.addSystem(new CameraSystem());
         engine.addSystem(new BackgroundSystem());
         engine.addSystem(new BoundsSystem());
@@ -137,14 +137,14 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void pauseSystems() {
-        engine.getSystem(KnightSystem.class).setProcessing(false);
+        engine.getSystem(EntitySystem.class).setProcessing(false);
         engine.getSystem(BoundsSystem.class).setProcessing(false);
         engine.getSystem(StateSystem.class).setProcessing(false);
         engine.getSystem(AnimationSystem.class).setProcessing(false);
     }
 
     private void resumeSystems() {
-        engine.getSystem(KnightSystem.class).setProcessing(true);
+        engine.getSystem(EntitySystem.class).setProcessing(true);
         engine.getSystem(BoundsSystem.class).setProcessing(true);
         engine.getSystem(StateSystem.class).setProcessing(true);
         engine.getSystem(AnimationSystem.class).setProcessing(true);

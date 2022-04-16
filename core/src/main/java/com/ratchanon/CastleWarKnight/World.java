@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.ratchanon.CastleWarKnight.components.*;
 import com.ratchanon.CastleWarKnight.systems.RenderingSystem;
+import com.ratchanon.CastleWarKnight.utils.EntityAnimation;
 
 import java.util.Random;
 
@@ -22,7 +23,7 @@ public class World {
     }
 
     public void create() {
-        Entity knight = createKnight(100, 100);
+        Entity knight = createKnight(100, 100, Asset.knight);
         createCamera(knight);
         createBackground();
 
@@ -30,31 +31,31 @@ public class World {
         this.level = 1;
     }
 
-    public Entity createKnight(int x, int y) {
+    public Entity createKnight(int x, int y, EntityAnimation anim) {
         System.out.println("Create Knight");
         Entity entity = engine.createEntity();
 
         AnimationComponent animation = engine.createComponent(AnimationComponent.class);
-        KnightComponent knight = engine.createComponent(KnightComponent.class);
+        EntityComponent entityComponent = engine.createComponent(EntityComponent.class);
         BoundsComponent bounds = engine.createComponent(BoundsComponent.class);
         TransformComponent position = engine.createComponent(TransformComponent.class);
         StateComponent state = engine.createComponent(StateComponent.class);
         TextureComponent texture = engine.createComponent(TextureComponent.class);
 
-        animation.animations.put(KnightComponent.STATE_IDLE, Asset.knightIdle);
-        animation.animations.put(KnightComponent.STATE_ATTACK, Asset.knightAttack);
-        animation.animations.put(KnightComponent.STATE_DEATH, Asset.knightDeath);
+        animation.animations.put(EntityComponent.STATE_IDLE, anim.idle);
+        animation.animations.put(EntityComponent.STATE_ATTACK, anim.attack);
+        animation.animations.put(EntityComponent.STATE_DEATH, anim.death);
 
-        bounds.bounds.height = KnightComponent.HEIGHT;
-        bounds.bounds.width = KnightComponent.WIDTH;
+        bounds.bounds.height = EntityComponent.HEIGHT;
+        bounds.bounds.width = EntityComponent.WIDTH;
 
         position.pos.set(x, y, 0);
 
-        state.set(KnightComponent.STATE_IDLE);
+        state.set(EntityComponent.STATE_IDLE);
         position.scale.set(1.5f, 1.5f);
 
         entity.add(animation);
-        entity.add(knight);
+        entity.add(entityComponent);
         entity.add(bounds);
         entity.add(position);
         entity.add(state);
@@ -64,6 +65,7 @@ public class World {
 
         return entity;
     }
+
 
     private void createCamera(Entity target) {
         System.out.println("Create Camera");
