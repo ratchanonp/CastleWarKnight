@@ -6,7 +6,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.ratchanon.CastleWarKnight.components.TextureComponent;
 import com.ratchanon.CastleWarKnight.components.TransformComponent;
@@ -14,10 +13,6 @@ import com.ratchanon.CastleWarKnight.components.TransformComponent;
 import java.util.Comparator;
 
 public class RenderingSystem extends IteratingSystem {
-    static final float FRUSTUM_WIDTH = 480;
-    static final float FRUSTUM_HEIGHT = 860;
-    static final float PIXELS_TO_METRES = 1.0f / 32.0f;
-
     private SpriteBatch batch;
     private Array<Entity> renderQueue;
     private Comparator<Entity> comparator;
@@ -34,22 +29,17 @@ public class RenderingSystem extends IteratingSystem {
 
         renderQueue = new Array<Entity>();
 
-        comparator = new Comparator<Entity>() {
-            @Override
-            public int compare(Entity entityA, Entity entityB) {
-                return (int) Math.signum(transformM.get(entityB).pos.z -
-                        transformM.get(entityA).pos.z);
-            }
-        };
+        comparator = (entityA, entityB) -> (int) Math.signum(transformM.get(entityB).pos.z - transformM.get(entityA).pos.z);
 
         this.batch = batch;
 
-        cam = new OrthographicCamera(FRUSTUM_WIDTH, FRUSTUM_HEIGHT);
-        cam.position.set(FRUSTUM_WIDTH / 2, FRUSTUM_HEIGHT / 2, 0);
+        cam = new OrthographicCamera(480, 860);
+        cam.position.set(480 / 2, 860 / 2, 0);
     }
 
     @Override
     public void update(float deltaTime) {
+
         super.update(deltaTime);
 
         renderQueue.sort(comparator);
@@ -76,8 +66,8 @@ public class RenderingSystem extends IteratingSystem {
                     t.pos.x - originX, t.pos.y - originY,
                     originX, originY,
                     width, height,
-                    t.scale.x * PIXELS_TO_METRES, t.scale.y * PIXELS_TO_METRES,
-                    MathUtils.radiansToDegrees * t.rotation);
+                    t.scale.x, t.scale.y,
+                    0);
         }
 
         batch.end();

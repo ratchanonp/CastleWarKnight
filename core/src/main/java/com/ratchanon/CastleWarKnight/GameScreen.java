@@ -1,6 +1,8 @@
 package com.ratchanon.CastleWarKnight;
 
+
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
@@ -27,9 +29,9 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(CastleWarKnight game) {
 
         this.game = game;
-        state = GAME_READY;
-        camera = new OrthographicCamera(720, 1280);
-        camera.position.set(720 / 2, 1280 / 20, 0);
+        state = GAME_RUNNING;
+        camera = new OrthographicCamera(480, 860);
+        camera.position.set(480 / 2, 860 / 2, 0);
         touchPoint = new Vector3();
 
         engine = new PooledEngine();
@@ -55,14 +57,83 @@ public class GameScreen extends ScreenAdapter {
         if (delta > 0.1f) delta = 0.1f;
 
         engine.update(delta);
+        switch (state) {
+            case GAME_READY:
+                updateReady();
+                break;
+            case GAME_RUNNING:
+                updateRunning(delta);
+                break;
+            case GAME_PAUSED:
+                updatePaused();
+                break;
+            case GAME_LEVEL_END:
+                updateLevelEnd();
+                break;
+            case GAME_OVER:
+                updateGameOver();
+                break;
+        }
     }
 
-    private void draw() {
+    private void updateGameOver() {
+    }
+
+    private void updateLevelEnd() {
+    }
+
+    private void updatePaused() {
+    }
+
+    private void updateReady() {
+        if (Gdx.input.justTouched()) {
+            state = GAME_RUNNING;
+            resumeSystems();
+        }
+    }
+
+    private void updateRunning(float deltaTime) {
+
+    }
+
+    private void drawUI() {
         camera.update();
         game.batcher.setProjectionMatrix(camera.combined);
         game.batcher.begin();
-
+        switch (state) {
+            case GAME_READY:
+                presentReady();
+                break;
+            case GAME_RUNNING:
+                presentRunning();
+                break;
+            case GAME_PAUSED:
+                presentPaused();
+                break;
+            case GAME_LEVEL_END:
+                presentLevelEnd();
+                break;
+            case GAME_OVER:
+                presentGameOver();
+                break;
+        }
         game.batcher.end();
+    }
+
+    private void presentReady() {
+    }
+
+    private void presentRunning() {
+        Asset.font.draw(game.batcher, "Game Running", 16, 860 - 20);
+    }
+
+    private void presentPaused() {
+    }
+
+    private void presentLevelEnd() {
+    }
+
+    private void presentGameOver() {
     }
 
     private void pauseSystems() {
@@ -81,8 +152,7 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-
         update(delta);
-        draw();
+        drawUI();
     }
 }

@@ -39,9 +39,9 @@ public class MainMenuScreen extends ScreenAdapter {
 
         game.batcher.begin();
         game.batcher.draw(Asset.background, 0, 0, 480, 860);
-        game.batcher.draw(Asset.logo, 15, 600, Asset.logo.getRegionWidth() * 0.85f, Asset.logo.getRegionHeight() * 0.85f);
+        game.batcher.draw(Asset.logo, 240 - ((561 * 0.85f) / 2) + 10, 600, Asset.logo.getRegionWidth() * 0.85f, Asset.logo.getRegionHeight() * 0.85f);
         Asset.font.getData().setScale(0.85f);
-        Asset.font.draw(game.batcher, "Tab Screen to begin", 480 / 2, 200, 0, Align.center, true);
+        Asset.font.draw(game.batcher, "Tab Screen to begin", 0, 200, 480, Align.center, true);
 
         game.batcher.end();
 

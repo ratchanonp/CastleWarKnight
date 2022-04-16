@@ -7,7 +7,7 @@ public class Animator {
 
     public static Animation create(TextureRegion animationSheet, int frame) {
         TextureRegion[][] tmp = TextureRegion.split(animationSheet.getTexture(), animationSheet.getRegionWidth() / frame, animationSheet.getRegionHeight());
-        return new Animation(0.025f, tmp[0]);
+        return new Animation(0.1f, tmp[0]);
     }
 
 }

@@ -31,6 +31,7 @@ public class World {
     }
 
     public Entity createKnight() {
+        System.out.println("Create Knight");
         Entity entity = engine.createEntity();
 
         AnimationComponent animation = engine.createComponent(AnimationComponent.class);
@@ -49,6 +50,8 @@ public class World {
 
         position.pos.set(100, 100, 0);
 
+        state.set(KnightComponent.STATE_IDLE);
+
         entity.add(animation);
         entity.add(knight);
         entity.add(bounds);
@@ -62,6 +65,7 @@ public class World {
     }
 
     private void createCamera(Entity target) {
+        System.out.println("Create Camera");
         Entity entity = engine.createEntity();
 
         CameraComponent camera = new CameraComponent();
@@ -74,6 +78,7 @@ public class World {
     }
 
     private void createBackground() {
+        System.out.println("Create Background");
         Entity entity = engine.createEntity();
 
         BackgroundComponent background = engine.createComponent(BackgroundComponent.class);
