@@ -13,6 +13,7 @@ public class EntitySystem extends IteratingSystem {
     private static final Family family = Family.all(EntityComponent.class, StateComponent.class, TransformComponent.class).get();
     private World world;
 
+
     private ComponentMapper<EntityComponent> km;
     private ComponentMapper<StateComponent> sm;
     private ComponentMapper<TransformComponent> tm;
@@ -26,6 +27,7 @@ public class EntitySystem extends IteratingSystem {
         tm = ComponentMapper.getFor(TransformComponent.class);
     }
 
+
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
@@ -36,5 +38,6 @@ public class EntitySystem extends IteratingSystem {
         TransformComponent t = tm.get(entity);
         StateComponent state = sm.get(entity);
         EntityComponent knight = km.get(entity);
+
     }
 }

@@ -54,30 +54,29 @@ public class Asset {
         castleRoof = castleAtlas.findRegion("roof");
 
         entityAtlas = new TextureAtlas(Gdx.files.internal("entities.atlas"));
-        knight.idle = Animator.create(entityAtlas.findRegion("Knight/knightIdle"), 15);
-        knight.attack = Animator.create(entityAtlas.findRegion("Knight/knightAttack"), 22);
-        knight.death = Animator.create(entityAtlas.findRegion("Knight/knightDeath"), 15);
-        knight.setLoop();
+        knight = new EntityAnimation(Animator.create(entityAtlas.findRegion("Knight/knightIdle"), 15),
+                Animator.create(entityAtlas.findRegion("Knight/knightAttack"), 22),
+                Animator.create(entityAtlas.findRegion("Knight/knightDeath"), 15));
 
-        bat.idle = Animator.create(entityAtlas.findRegion("Bat/batIdle"), 8);
-        bat.attack = Animator.create(entityAtlas.findRegion("Bat/batAttack"), 10);
-        bat.death = Animator.create(entityAtlas.findRegion("Bat/batDeath"), 10);
-        bat.setLoop();
+        bat = new EntityAnimation(Animator.create(entityAtlas.findRegion("Bat/batIdle"), 8),
+                Animator.create(entityAtlas.findRegion("Bat/batAttack"), 10),
+                Animator.create(entityAtlas.findRegion("Bat/batDeath"), 10));
 
-        golem.idle = Animator.create(entityAtlas.findRegion("Golem/golemIdle"), 12);
-        golem.attack = Animator.create(entityAtlas.findRegion("Golem/golemAttack"), 16);
-        golem.death = Animator.create(entityAtlas.findRegion("Golem/golemDeath"), 28);
-        golem.setLoop();
 
-        witch.idle = Animator.create(entityAtlas.findRegion("Witch/witchIdle"), 7);
-        witch.attack = Animator.create(entityAtlas.findRegion("Witch/witchAttack"), 18);
-        witch.death = Animator.create(entityAtlas.findRegion("Witch/witchDeath"), 12);
-        witch.setLoop();
+        golem = new EntityAnimation(Animator.create(entityAtlas.findRegion("Golem/golemIdle"), 12),
+                Animator.create(entityAtlas.findRegion("Golem/golemAttack"), 16),
+                Animator.create(entityAtlas.findRegion("Golem/golemDeath"), 28));
 
-        wolf.idle = Animator.create(entityAtlas.findRegion("Wolf/wolfIdle"), 12);
-        wolf.attack = Animator.create(entityAtlas.findRegion("Wolf/wolfAttack"), 16);
-        wolf.death = Animator.create(entityAtlas.findRegion("Wolf/wolfDeath"), 18);
-        wolf.setLoop();
+
+        witch = new EntityAnimation(Animator.create(entityAtlas.findRegion("Witch/witchIdle"), 7),
+                Animator.create(entityAtlas.findRegion("Witch/witchAttack"), 18),
+                Animator.create(entityAtlas.findRegion("Witch/witchDeath"), 12));
+
+
+        wolf = new EntityAnimation(Animator.create(entityAtlas.findRegion("Wolf/wolfIdle"), 12),
+                Animator.create(entityAtlas.findRegion("Wolf/wolfAttack"), 16),
+                Animator.create(entityAtlas.findRegion("Wolf/wolfDeath"), 18));
+
 
         font = new BitmapFont(Gdx.files.internal("font.fnt"), Gdx.files.internal("font.png"), false);
         music = Gdx.audio.newMusic(Gdx.files.internal("song/Song_Skyrim_8-Bit.mp3"));

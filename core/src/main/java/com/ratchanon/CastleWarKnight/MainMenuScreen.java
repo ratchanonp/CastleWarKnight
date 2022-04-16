@@ -38,10 +38,10 @@ public class MainMenuScreen extends ScreenAdapter {
         game.batcher.setProjectionMatrix(camera.combined);
 
         game.batcher.begin();
-        game.batcher.draw(Asset.background, 0, 0, 480, 860);
-        game.batcher.draw(Asset.logo, 240 - ((561 * 0.85f) / 2) + 10, 600, Asset.logo.getRegionWidth() * 0.85f, Asset.logo.getRegionHeight() * 0.85f);
+        game.batcher.draw(Asset.background, 0, 0, Settings.WIDTH, Settings.HEIGHT);
+        game.batcher.draw(Asset.logo, Settings.WIDTH / 2 - ((561 * 0.85f) / 2) + 10, 600, Asset.logo.getRegionWidth() * 0.85f, Asset.logo.getRegionHeight() * 0.85f);
         Asset.font.getData().setScale(0.85f);
-        Asset.font.draw(game.batcher, "Tab Screen to begin", 0, 200, 480, Align.center, true);
+        Asset.font.draw(game.batcher, "Tab Screen to begin", 0, 200, Settings.WIDTH, Align.center, true);
 
         game.batcher.end();
 

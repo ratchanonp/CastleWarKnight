@@ -30,14 +30,15 @@ public class GameScreen extends ScreenAdapter {
 
         this.game = game;
         state = GAME_RUNNING;
-        camera = new OrthographicCamera(480, 860);
-        camera.position.set(480 / 2, 860 / 2, 0);
+        camera = new OrthographicCamera(Settings.WIDTH, Settings.HEIGHT);
+        camera.position.set(Settings.WIDTH / 2, Settings.HEIGHT / 2, 0);
         touchPoint = new Vector3();
 
         engine = new PooledEngine();
         world = new World(engine);
 
         engine.addSystem(new EntitySystem(world));
+        engine.addSystem(new KnightSystem(world));
         engine.addSystem(new CameraSystem());
         engine.addSystem(new BackgroundSystem());
         engine.addSystem(new BoundsSystem());
@@ -94,6 +95,14 @@ public class GameScreen extends ScreenAdapter {
 
     private void updateRunning(float deltaTime) {
 
+        if (Gdx.input.isTouched()) {
+            Vector3 touchPos = new Vector3();
+            touchPos = touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+
+            System.out.println(touchPos);
+
+            engine.getSystem(KnightSystem.class).setPos(touchPos);
+        }
     }
 
     private void drawUI() {
