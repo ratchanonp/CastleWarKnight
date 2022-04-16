@@ -22,7 +22,7 @@ public class World {
     }
 
     public void create() {
-        Entity knight = createKnight();
+        Entity knight = createKnight(100, 100);
         createCamera(knight);
         createBackground();
 
@@ -30,7 +30,7 @@ public class World {
         this.level = 1;
     }
 
-    public Entity createKnight() {
+    public Entity createKnight(int x, int y) {
         System.out.println("Create Knight");
         Entity entity = engine.createEntity();
 
@@ -48,9 +48,10 @@ public class World {
         bounds.bounds.height = KnightComponent.HEIGHT;
         bounds.bounds.width = KnightComponent.WIDTH;
 
-        position.pos.set(100, 100, 0);
+        position.pos.set(x, y, 0);
 
         state.set(KnightComponent.STATE_IDLE);
+        position.scale.set(1.5f, 1.5f);
 
         entity.add(animation);
         entity.add(knight);
