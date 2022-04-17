@@ -17,7 +17,7 @@ public class CastleWarKnight extends Game {
         batcher = new SpriteBatch();
 
         Asset.load();
-        setScreen(new MainMenuScreen(this));
+        setScreen(new GameScreen(this));
     }
 
     @Override

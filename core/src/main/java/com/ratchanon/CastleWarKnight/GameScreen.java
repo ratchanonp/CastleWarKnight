@@ -45,6 +45,9 @@ public class GameScreen extends ScreenAdapter {
         engine.addSystem(new StateSystem());
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new RenderingSystem(game.batcher));
+        engine.addSystem(new DragableSystem(camera));
+        engine.addSystem(new TransformSystem());
+        engine.addSystem(new PointRenderingSystem(game.batcher));
 
         engine.getSystem(BackgroundSystem.class).setCamera(engine.getSystem(RenderingSystem.class).getCamera());
 
@@ -95,14 +98,6 @@ public class GameScreen extends ScreenAdapter {
 
     private void updateRunning(float deltaTime) {
 
-        if (Gdx.input.isTouched()) {
-            Vector3 touchPos = new Vector3();
-            touchPos = touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-
-            System.out.println(touchPos);
-
-            engine.getSystem(KnightSystem.class).setPos(touchPos);
-        }
     }
 
     private void drawUI() {
@@ -133,7 +128,8 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void presentRunning() {
-        Asset.font.draw(game.batcher, "Game Running", 16, 860 - 20);
+        Asset.font.setColor(0, 0, 0, 1);
+        Asset.font.draw(game.batcher, "Level " + World.level, 16, 860 - 20);
     }
 
     private void presentPaused() {
@@ -157,6 +153,8 @@ public class GameScreen extends ScreenAdapter {
         engine.getSystem(BoundsSystem.class).setProcessing(true);
         engine.getSystem(StateSystem.class).setProcessing(true);
         engine.getSystem(AnimationSystem.class).setProcessing(true);
+        engine.getSystem(DragableSystem.class).setProcessing(true);
+        engine.getSystem(TransformSystem.class).setProcessing(true);
     }
 
     @Override

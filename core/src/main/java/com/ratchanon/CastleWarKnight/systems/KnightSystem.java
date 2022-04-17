@@ -22,7 +22,7 @@ public class KnightSystem extends IteratingSystem {
     private ComponentMapper<TransformComponent> tm;
 
     public KnightSystem(World world) {
-        super(family);
+        super(Family.all(KnightComponent.class, StateComponent.class, TransformComponent.class).get());
 
         this.world = world;
         km = ComponentMapper.getFor(KnightComponent.class);
