@@ -7,6 +7,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.ratchanon.CastleWarKnight.Asset;
 import com.ratchanon.CastleWarKnight.components.TextureComponent;
 import com.ratchanon.CastleWarKnight.components.TransformComponent;
 
@@ -67,6 +68,10 @@ public class RenderingSystem extends IteratingSystem {
             }
 
             batch.draw(tex.region, t.pos.x - originX, t.pos.y - originY, originX, originY, width, height, t.scale.x, t.scale.y, 0);
+
+            if (tex.isCastleTop) {
+                batch.draw(Asset.castleRoof, t.pos.x - originX, t.pos.y - originY + 35, originX, originY, width, height, t.scale.x, t.scale.y, 0);
+            }
         }
 
         batch.end();

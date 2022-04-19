@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.ratchanon.CastleWarKnight.Settings;
@@ -32,17 +33,19 @@ public class DragableSystem extends IteratingSystem {
         click.bounds.x = transform.pos.x - 45;
         click.bounds.y = transform.pos.y - 45;
 
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+        if (click.canDrag) {
             Vector3 clickPosition = new Vector3(Gdx.input.getX(), Settings.HEIGHT - Gdx.input.getY(), 0);
-
             if (click.bounds.contains(clickPosition.x, clickPosition.y)) {
-
-                transform.pos = clickPosition;
-                click.isDrag = true;
+                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                    transform.pos = clickPosition;
+                    click.isDrag = true;
+                } else {
+                    click.isDrag = false;
+                }
+                Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
+            } else {
+                Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
             }
-        } else {
-            click.isDrag = false;
-
         }
     }
 }

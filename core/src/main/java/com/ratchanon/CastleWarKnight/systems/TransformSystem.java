@@ -8,28 +8,24 @@ import com.badlogic.gdx.math.Rectangle;
 import com.ratchanon.CastleWarKnight.Asset;
 import com.ratchanon.CastleWarKnight.World;
 import com.ratchanon.CastleWarKnight.components.DragableComponent;
-import com.ratchanon.CastleWarKnight.components.KnightComponent;
 import com.ratchanon.CastleWarKnight.components.TransformComponent;
 
 import java.util.ArrayList;
 
 public class TransformSystem extends IteratingSystem {
 
-    private ComponentMapper<KnightComponent> km;
     private ComponentMapper<TransformComponent> tm;
 
     private ComponentMapper<DragableComponent> dm;
 
     public TransformSystem() {
-        super(Family.all(KnightComponent.class, TransformComponent.class, DragableComponent.class).get());
-        km = ComponentMapper.getFor(KnightComponent.class);
+        super(Family.all(TransformComponent.class, DragableComponent.class).get());
         tm = ComponentMapper.getFor(TransformComponent.class);
         dm = ComponentMapper.getFor(DragableComponent.class);
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        KnightComponent knight = km.get(entity);
         TransformComponent pos = tm.get(entity);
         DragableComponent drag = dm.get(entity);
 
@@ -45,12 +41,17 @@ public class TransformSystem extends IteratingSystem {
                     pos.pos.y = bounds.y + 40;
                 }
                 isInCastle = true;
+                pos.isInCastle = true;
+            } else {
+                pos.isInCastle = false;
             }
         }
 
         if (!isInCastle && !drag.isDrag) {
             pos.pos.x = 20 + Asset.castleLevel.getRegionWidth() / 2;
             pos.pos.y = 100;
+
         }
+
     }
 }

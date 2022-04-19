@@ -8,4 +8,6 @@ public class TransformComponent implements Component {
     public final Vector2 scale = new Vector2(1.0f, 1.0f);
     public Vector3 pos = new Vector3();
     public float rotation = 0.0f;
+
+    public boolean isInCastle = true;
 }

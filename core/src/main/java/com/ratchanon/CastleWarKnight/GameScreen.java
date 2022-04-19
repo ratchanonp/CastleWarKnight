@@ -38,7 +38,6 @@ public class GameScreen extends ScreenAdapter {
         world = new World(engine);
 
         engine.addSystem(new EntitySystem(world));
-        engine.addSystem(new KnightSystem(world));
         engine.addSystem(new CameraSystem());
         engine.addSystem(new BackgroundSystem());
         engine.addSystem(new BoundsSystem());
@@ -48,6 +47,7 @@ public class GameScreen extends ScreenAdapter {
         engine.addSystem(new DragableSystem(camera));
         engine.addSystem(new TransformSystem());
         engine.addSystem(new PointRenderingSystem(game.batcher));
+        engine.addSystem(new FightSystem(world));
 
         engine.getSystem(BackgroundSystem.class).setCamera(engine.getSystem(RenderingSystem.class).getCamera());
 

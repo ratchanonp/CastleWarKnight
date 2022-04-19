@@ -5,5 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class TextureComponent implements Component {
     public TextureRegion region = null;
+    public boolean isCastleTop = false;
     public boolean flip = false;
 }
