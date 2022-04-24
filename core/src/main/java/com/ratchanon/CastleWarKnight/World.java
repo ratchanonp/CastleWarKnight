@@ -16,18 +16,24 @@ public class World {
     public static final int WORLD_STATE_NEXT_LEVEL = 1;
     public static final int WORLD_STATE_GAME_OVER = 2;
     public static ArrayList<Rectangle> castleBoundList;
-    public static int level;
+    public static int level = 1;
+    public static int enemyCount;
+    public static long playerPoint = 5;
     public final Random random;
     public int state;
-    public int playerPoint;
     private PooledEngine engine;
+    private long sumLevelScore;
+
+    private ArrayList<Long> enemyPoints;
 
     public World(PooledEngine engine) {
         this.random = new Random();
         this.engine = engine;
 
         castleBoundList = new ArrayList<>();
-        World.level = 6;
+        enemyCount = 0;
+        sumLevelScore = playerPoint;
+        enemyPoints = new ArrayList<>();
     }
 
     public void create() {
@@ -38,9 +44,11 @@ public class World {
         createStage();
 
         this.state = WORLD_STATE_RUNNING;
+
     }
 
     public Entity createEntity(int x, int y, int initState, boolean flip) {
+        enemyCount++;
         int randomEntity = random.nextInt(4);
 
         EntityAnimation anim;
@@ -74,7 +82,9 @@ public class World {
 
         entityComponent.entityType = EntityComponent.TYPE_ENEMY;
 
-        point.point = random.nextInt(playerPoint * 2);
+        int pointIndex = random.nextInt(enemyPoints.size());
+        point.point = enemyPoints.get(pointIndex);
+        enemyPoints.remove(pointIndex);
 
         animation.animations.put(EntityComponent.STATE_IDLE, anim.idle);
         animation.animations.put(EntityComponent.STATE_ATTACK, anim.attack);
@@ -104,7 +114,7 @@ public class World {
     }
 
     public Entity createKnight(int x, int y, @NotNull EntityAnimation anim, int initState, boolean flip) {
-        System.out.println("Create Knight");
+        System.out.println("Create Knight" + playerPoint);
         Entity entity = engine.createEntity();
 
         AnimationComponent animation = engine.createComponent(AnimationComponent.class);
@@ -119,7 +129,6 @@ public class World {
         animation.animations.put(EntityComponent.STATE_IDLE, anim.idle);
         animation.animations.put(EntityComponent.STATE_ATTACK, anim.attack);
         animation.animations.put(EntityComponent.STATE_DEATH, anim.death);
-        playerPoint = 100;
         point.point = playerPoint;
 
         bounds.bounds.height = EntityComponent.HEIGHT;
@@ -180,6 +189,12 @@ public class World {
         int casteLevel = (World.level % 4) + 2;
         System.out.println("Level" + World.level);
         System.out.println("CastleLevel" + casteLevel);
+
+        for (int i = 0; i <= casteLevel; i++) {
+            long score = random.nextLong(sumLevelScore - sumLevelScore / 2) + sumLevelScore / 2;
+            sumLevelScore += score;
+            enemyPoints.add(score);
+        }
 
         // Create Castle for knight
         createCastle(20 + Asset.castleLevel.getRegionWidth() / 2, 120, false, true);

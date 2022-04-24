@@ -84,13 +84,11 @@ public class FightSystem extends EntitySystem {
                     if (attackWithAnim.animations.get(attackWithState.get()).isAnimationFinished(attackWithState.time)) {
                         isFinishedAttack = 2;
                         playerState.set(StateComponent.STATE_DEATH);
-                        attackWithState.set(StateComponent.STATE_IDLE);
+
                     }
                 }
 
 
-            } else {
-                playerState.set(StateComponent.STATE_IDLE);
             }
 
             if (attackWith != null && isFinishedAttack != 0) {
@@ -100,8 +98,10 @@ public class FightSystem extends EntitySystem {
                 if (attackWithAnim.animations.get(StateComponent.STATE_DEATH).isAnimationFinished(attackWithState.time) && isFinishedAttack == 1) {
                     PointComponent attackWithPoint = pm.get(attackWith);
                     playerPoint.point += attackWithPoint.point;
+                    World.playerPoint += attackWithPoint.point;
 
                     engine.removeEntity(attackWith);
+                    World.enemyCount--;
                     attackWith = null;
 
                     isFinishedAttack = 0;
@@ -114,6 +114,8 @@ public class FightSystem extends EntitySystem {
 
                     attackWithState.set(StateComponent.STATE_IDLE);
                     isFinishedAttack = 0;
+
+                    world.state = World.WORLD_STATE_GAME_OVER;
                 }
 
             }
