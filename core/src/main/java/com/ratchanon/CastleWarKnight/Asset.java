@@ -18,6 +18,11 @@ public class Asset {
     public static TextureRegion background;
     public static TextureRegion logo;
 
+    public static TextureRegion gameOverBox;
+    public static TextureRegion restart;
+    public static TextureRegion restartHover;
+    public static TextureRegion pauseButton;
+    public static TextureRegion labelBackground;
 
     // Castle
     public static TextureRegion castleLevel;
@@ -37,6 +42,8 @@ public class Asset {
     public static Sound diedSound;
     public static Sound gameOverSound;
 
+    public static Sound clickSound;
+
     // Font
     public static BitmapFont font;
 
@@ -48,6 +55,11 @@ public class Asset {
         itemsAtlas = new TextureAtlas(Gdx.files.internal("items.atlas"));
         background = itemsAtlas.findRegion("background");
         logo = itemsAtlas.findRegion("Logo");
+        gameOverBox = itemsAtlas.findRegion("GameOver");
+        restart = itemsAtlas.findRegion("Restart");
+        restartHover = itemsAtlas.findRegion("Restart_Clicked");
+        pauseButton = itemsAtlas.findRegion("pause");
+        labelBackground = itemsAtlas.findRegion("b1_long");
 
         castleAtlas = new TextureAtlas(Gdx.files.internal("castle.atlas"));
         castleLevel = castleAtlas.findRegion("cUnit");
@@ -83,5 +95,13 @@ public class Asset {
         music.setLooping(true);
         music.setVolume(0.5f);
         //music.play();
+
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("song/Audio/Others/Mouse Click.mp3"));
+
+
+    }
+
+    public static void playSound(Sound sound) {
+        if (Settings.soundEnabled) sound.play(1);
     }
 }
