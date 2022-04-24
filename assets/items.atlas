@@ -4,17 +4,94 @@ size: 2048, 1024
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
+Exit
+  rotate: false
+  xy: 612, 226
+  size: 160, 48
+  orig: 160, 48
+  offset: 0, 0
+  index: -1
+Exit_Clicked
+  rotate: false
+  xy: 838, 742
+  size: 160, 48
+  orig: 160, 48
+  offset: 0, 0
+  index: -1
+GameOver
+  rotate: false
+  xy: 612, 534
+  size: 224, 256
+  orig: 224, 256
+  offset: 0, 0
+  index: -1
+GameOver_HighScore
+  rotate: false
+  xy: 612, 276
+  size: 224, 256
+  orig: 224, 256
+  offset: 0, 0
+  index: -1
 Logo
   rotate: false
-  xy: 612, 708
+  xy: 612, 792
   size: 561, 190
   orig: 561, 190
   offset: 0, 0
   index: -1
+Restart
+  rotate: false
+  xy: 2, 36
+  size: 160, 48
+  orig: 160, 48
+  offset: 0, 0
+  index: -1
+Restart_Clicked
+  rotate: false
+  xy: 1175, 934
+  size: 160, 48
+  orig: 160, 48
+  offset: 0, 0
+  index: -1
+b1_long
+  rotate: false
+  xy: 164, 68
+  size: 48, 16
+  orig: 48, 16
+  offset: 0, 0
+  index: -1
+b1_short
+  rotate: false
+  xy: 838, 724
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: -1
+b2_long
+  rotate: false
+  xy: 1175, 916
+  size: 48, 16
+  orig: 48, 16
+  offset: 0, 0
+  index: -1
+b2_short
+  rotate: false
+  xy: 1337, 966
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: -1
 background
   rotate: false
-  xy: 2, 2
+  xy: 2, 86
   size: 608, 896
   orig: 608, 896
+  offset: 0, 0
+  index: -1
+pause
+  rotate: false
+  xy: 2, 2
+  size: 32, 32
+  orig: 32, 32
   offset: 0, 0
   index: -1
