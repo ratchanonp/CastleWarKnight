@@ -7,6 +7,8 @@ public class EntityComponent implements Component {
     public static final int STATE_ATTACK = 1;
     public static final int STATE_DEATH = 2;
 
+    public static final int STATE_RUN = 3;
+
     public static final int HEIGHT = 64;
     public static final int WIDTH = 64;
 
