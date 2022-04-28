@@ -1,0 +1,118 @@
+
+icons.png
+size: 1024, 512
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+GamePause
+  rotate: false
+  xy: 228, 216
+  size: 224, 256
+  orig: 224, 256
+  offset: 0, 0
+  index: -1
+GameSettings
+  rotate: false
+  xy: 2, 216
+  size: 224, 256
+  orig: 224, 256
+  offset: 0, 0
+  index: -1
+icon_mute
+  rotate: false
+  xy: 164, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 2
+icon_mute
+  rotate: false
+  xy: 842, 424
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+icon_sound
+  rotate: false
+  xy: 390, 166
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+icon_sound
+  rotate: false
+  xy: 616, 310
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 2
+levelComplete_Stage
+  rotate: false
+  xy: 454, 360
+  size: 224, 112
+  orig: 224, 112
+  offset: 0, 0
+  index: -1
+levelComplete_Stage_clicked
+  rotate: false
+  xy: 2, 102
+  size: 224, 112
+  orig: 224, 112
+  offset: 0, 0
+  index: -1
+mainmenu
+  rotate: false
+  xy: 454, 310
+  size: 160, 48
+  orig: 160, 48
+  offset: 0, 0
+  index: 2
+mainmenu_clicked
+  rotate: false
+  xy: 2, 52
+  size: 160, 48
+  orig: 160, 48
+  offset: 0, 0
+  index: -1
+resume
+  rotate: false
+  xy: 228, 166
+  size: 160, 48
+  orig: 160, 48
+  offset: 0, 0
+  index: -1
+resume_clicked
+  rotate: false
+  xy: 680, 424
+  size: 160, 48
+  orig: 160, 48
+  offset: 0, 0
+  index: -1
+settings
+  rotate: false
+  xy: 454, 260
+  size: 128, 48
+  orig: 128, 48
+  offset: 0, 0
+  index: -1
+settings_clicked
+  rotate: false
+  xy: 680, 374
+  size: 128, 48
+  orig: 128, 48
+  offset: 0, 0
+  index: -1
+start
+  rotate: false
+  xy: 2, 2
+  size: 128, 48
+  orig: 128, 48
+  offset: 0, 0
+  index: -1
+start_clicked
+  rotate: false
+  xy: 228, 116
+  size: 128, 48
+  orig: 128, 48
+  offset: 0, 0
+  index: -1
