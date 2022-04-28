@@ -47,6 +47,14 @@ public class World {
 
     }
 
+    public void createMainScreen() {
+        createKnight(60, 95, Asset.knight, EntityComponent.STATE_RUN, false);
+        createEntity(230, 95, Asset.golem, EntityComponent.STATE_RUN, false);
+        createEntity(280, 195, Asset.bat, EntityComponent.STATE_RUN, false);
+        createEntity(300, 95, Asset.witch, EntityComponent.STATE_RUN, false);
+        createEntity(370, 95, Asset.wolf, EntityComponent.STATE_RUN, false);
+    }
+
     public Entity createEntity(int x, int y, int initState, boolean flip) {
         enemyCount++;
         int randomEntity = random.nextInt(4);
@@ -113,6 +121,46 @@ public class World {
         return entity;
     }
 
+    public Entity createEntity(int x, int y, EntityAnimation anim, int initState, boolean flip) {
+        System.out.println("Create Entity");
+        Entity entity = engine.createEntity();
+
+        AnimationComponent animation = engine.createComponent(AnimationComponent.class);
+        EntityComponent entityComponent = engine.createComponent(EntityComponent.class);
+        BoundsComponent bounds = engine.createComponent(BoundsComponent.class);
+        TransformComponent position = engine.createComponent(TransformComponent.class);
+        StateComponent state = engine.createComponent(StateComponent.class);
+        TextureComponent texture = engine.createComponent(TextureComponent.class);
+
+        entityComponent.entityType = EntityComponent.TYPE_ENEMY;
+
+        animation.animations.put(EntityComponent.STATE_IDLE, anim.idle);
+        animation.animations.put(EntityComponent.STATE_ATTACK, anim.attack);
+        animation.animations.put(EntityComponent.STATE_DEATH, anim.death);
+        animation.animations.put(EntityComponent.STATE_RUN, anim.run);
+
+        bounds.bounds.height = EntityComponent.HEIGHT;
+        bounds.bounds.width = EntityComponent.WIDTH;
+
+        position.pos.set(x, y, 0);
+
+        state.set(initState);
+        position.scale.set(2.0f, 2.0f);
+
+        texture.flip = flip;
+
+        entity.add(animation);
+        entity.add(entityComponent);
+        entity.add(bounds);
+        entity.add(position);
+        entity.add(state);
+        entity.add(texture);
+
+        engine.addEntity(entity);
+
+        return entity;
+    }
+
     public Entity createKnight(int x, int y, @NotNull EntityAnimation anim, int initState, boolean flip) {
         System.out.println("Create Knight" + playerPoint);
         Entity entity = engine.createEntity();
@@ -129,6 +177,8 @@ public class World {
         animation.animations.put(EntityComponent.STATE_IDLE, anim.idle);
         animation.animations.put(EntityComponent.STATE_ATTACK, anim.attack);
         animation.animations.put(EntityComponent.STATE_DEATH, anim.death);
+        animation.animations.put(EntityComponent.STATE_RUN, anim.run);
+
         point.point = playerPoint;
 
         bounds.bounds.height = EntityComponent.HEIGHT;
