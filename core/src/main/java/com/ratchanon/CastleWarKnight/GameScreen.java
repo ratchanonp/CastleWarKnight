@@ -3,8 +3,10 @@ package com.ratchanon.CastleWarKnight;
 
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -61,7 +63,6 @@ public class GameScreen extends ScreenAdapter {
         world.create();
 
         resumeSystems();
-
     }
 
     private void update(float delta) {
@@ -92,10 +93,13 @@ public class GameScreen extends ScreenAdapter {
 
     private void updateLevelEnd() {
         World.level++;
-        game.setScreen(new GameScreen(game));
+//        game.setScreen(new GameScreen(game));
     }
 
     private void updatePaused() {
+
+        pauseSystems();
+
     }
 
     private void updateReady() {
@@ -156,9 +160,37 @@ public class GameScreen extends ScreenAdapter {
                 Asset.pauseButton.getRegionWidth() * 2f, Asset.pauseButton.getRegionHeight() * 2f,
                 1, 1, 0f);
 
+        Rectangle pauseButton = new Rectangle(Settings.WIDTH - Asset.pauseButton.getRegionWidth() / 2 - 40,
+                Asset.pauseButton.getRegionHeight() / 2,
+                Asset.pauseButton.getRegionWidth(),
+                Asset.pauseButton.getRegionHeight());
+
+        touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+
+        if (pauseButton.contains(touchPoint.x, touchPoint.y)) {
+            Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
+            if (Gdx.input.justTouched()) {
+                Asset.playSound(Asset.clickSound);
+                state = GAME_PAUSED;
+            }
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            Asset.playSound(Asset.clickSound);
+            state = GAME_PAUSED;
+        }
+
+
     }
 
     private void presentPaused() {
+        game.batcher.draw(Asset.labelBackground, 20, Settings.HEIGHT - Asset.labelBackground.getRegionHeight() * 3 / 2 - 40,
+                0, 0,
+                Asset.labelBackground.getRegionWidth() * 3, Asset.labelBackground.getRegionHeight() * 3,
+                1, 1, 0f);
+        Asset.font.setColor(1, 1, 1, 1);
+        Asset.font.getData().setScale(0.55f);
+        Asset.font.draw(game.batcher, "Level " + World.level, 35, Settings.HEIGHT - Asset.labelBackground.getRegionHeight() * 3 / 2 - 5);
         game.batcher.end();
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -169,21 +201,39 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
         game.batcher.begin();
-        game.batcher.draw(Asset.gameOverBox, Settings.WIDTH / 2 - Asset.gameOverBox.getRegionWidth() * 1.5f / 2, Settings.HEIGHT / 2 - Asset.gameOverBox.getRegionHeight() * 1.5f / 2, 0, 0, Asset.gameOverBox.getRegionWidth() * 1.5f, Asset.gameOverBox.getRegionHeight() * 1.5f, 1, 1, 0f);
-        Rectangle restartBounds = new Rectangle(Settings.WIDTH / 2 - Asset.restart.getRegionWidth() / 2, Settings.HEIGHT / 2 - Asset.restart.getRegionHeight() / 2, Asset.restart.getRegionWidth(), Asset.restart.getRegionHeight());
+        game.batcher.draw(Asset.gamePauseBox, Settings.WIDTH / 2 - Asset.gamePauseBox.getRegionWidth() * 1.5f / 2, Settings.HEIGHT / 2 - Asset.gamePauseBox.getRegionHeight() * 1.5f / 2, 0, 0, Asset.gamePauseBox.getRegionWidth() * 1.5f, Asset.gamePauseBox.getRegionHeight() * 1.5f, 1, 1, 0f);
 
+        Rectangle resumeBound = new Rectangle(Settings.WIDTH / 2 - Asset.resume.getRegionWidth() / 2, Settings.HEIGHT / 2 - Asset.restart.getRegionHeight() / 2, Asset.restart.getRegionWidth(), Asset.restart.getRegionHeight());
+        Rectangle mainMenuBound = new Rectangle(Settings.WIDTH / 2 - Asset.resume.getRegionWidth() / 2, Settings.HEIGHT / 2 - Asset.restart.getRegionHeight() / 2 + 80, Asset.restart.getRegionWidth(), Asset.restart.getRegionHeight());
         touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         if (Gdx.input.justTouched()) {
-            if (restartBounds.contains(touchPoint.x, touchPoint.y)) {
+            if (resumeBound.contains(touchPoint.x, touchPoint.y)) {
                 Asset.playSound(Asset.clickSound);
-
+                state = GAME_RUNNING;
+                resumeSystems();
+            }
+            if (mainMenuBound.contains(touchPoint.x, touchPoint.y)) {
+                Asset.playSound(Asset.clickSound);
+                game.setScreen(new MainMenuScreen(game));
             }
         }
 
-        if (restartBounds.contains(touchPoint.x, touchPoint.y)) {
-            game.batcher.draw(Asset.restartHover, Settings.WIDTH / 2 - Asset.restart.getRegionWidth() / 2, Settings.HEIGHT / 2 - Asset.restart.getRegionHeight() / 2);
+        if (resumeBound.contains(touchPoint.x, touchPoint.y)) {
+            game.batcher.draw(Asset.resumeHover, Settings.WIDTH / 2 - Asset.restart.getRegionWidth() / 2, Settings.HEIGHT / 2 - Asset.restart.getRegionHeight() / 2);
         } else {
-            game.batcher.draw(Asset.restart, Settings.WIDTH / 2 - Asset.restart.getRegionWidth() / 2, Settings.HEIGHT / 2 - Asset.restart.getRegionHeight() / 2);
+            game.batcher.draw(Asset.resume, Settings.WIDTH / 2 - Asset.restart.getRegionWidth() / 2, Settings.HEIGHT / 2 - Asset.restart.getRegionHeight() / 2);
+        }
+
+        if (mainMenuBound.contains(touchPoint.x, touchPoint.y)) {
+            game.batcher.draw(Asset.resumeHover, Settings.WIDTH / 2 - Asset.restart.getRegionWidth() / 2, Settings.HEIGHT / 2 - Asset.restart.getRegionHeight() / 2 - 80);
+        } else {
+            game.batcher.draw(Asset.resume, Settings.WIDTH / 2 - Asset.restart.getRegionWidth() / 2, Settings.HEIGHT / 2 - Asset.restart.getRegionHeight() / 2 - 80);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            Asset.playSound(Asset.clickSound);
+            state = GAME_RUNNING;
+            resumeSystems();
         }
     }
 
