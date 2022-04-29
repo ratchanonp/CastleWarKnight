@@ -57,6 +57,7 @@ public class GameScreen extends ScreenAdapter {
         engine.addSystem(new TransformSystem());
         engine.addSystem(new PointRenderingSystem(game.batcher));
         engine.addSystem(new FightSystem(world));
+        engine.addSystem(new AudioSystem());
 
         engine.getSystem(BackgroundSystem.class).setCamera(engine.getSystem(RenderingSystem.class).getCamera());
 
@@ -92,8 +93,6 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void updateLevelEnd() {
-        World.level++;
-//        game.setScreen(new GameScreen(game));
     }
 
     private void updatePaused() {
@@ -225,9 +224,9 @@ public class GameScreen extends ScreenAdapter {
         }
 
         if (mainMenuBound.contains(touchPoint.x, touchPoint.y)) {
-            game.batcher.draw(Asset.resumeHover, Settings.WIDTH / 2 - Asset.restart.getRegionWidth() / 2, Settings.HEIGHT / 2 - Asset.restart.getRegionHeight() / 2 - 80);
+            game.batcher.draw(Asset.mainMenuHover, Settings.WIDTH / 2 - Asset.restart.getRegionWidth() / 2, Settings.HEIGHT / 2 - Asset.restart.getRegionHeight() / 2 - 80);
         } else {
-            game.batcher.draw(Asset.resume, Settings.WIDTH / 2 - Asset.restart.getRegionWidth() / 2, Settings.HEIGHT / 2 - Asset.restart.getRegionHeight() / 2 - 80);
+            game.batcher.draw(Asset.mainMenu, Settings.WIDTH / 2 - Asset.restart.getRegionWidth() / 2, Settings.HEIGHT / 2 - Asset.restart.getRegionHeight() / 2 - 80);
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
@@ -238,6 +237,40 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void presentLevelEnd() {
+        game.batcher.draw(Asset.labelBackground, 20, Settings.HEIGHT - Asset.labelBackground.getRegionHeight() * 3 / 2 - 40,
+                0, 0,
+                Asset.labelBackground.getRegionWidth() * 3, Asset.labelBackground.getRegionHeight() * 3,
+                1, 1, 0f);
+        Asset.font.setColor(1, 1, 1, 1);
+        Asset.font.getData().setScale(0.55f);
+        Asset.font.draw(game.batcher, "Level " + World.level, 35, Settings.HEIGHT - Asset.labelBackground.getRegionHeight() * 3 / 2 - 5);
+        game.batcher.end();
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(new Color(0, 0, 0, 0.5f));
+        shapeRenderer.rect(0, 0, Settings.WIDTH, Settings.HEIGHT);
+        shapeRenderer.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+
+        touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        game.batcher.begin();
+        Rectangle completeBoxBound = new Rectangle(Settings.WIDTH / 2 - Asset.gameStageCompleteBox.getRegionWidth() / 2,
+                Settings.HEIGHT / 2 - Asset.gameStageCompleteBox.getRegionHeight() / 2,
+                Asset.gameStageCompleteBox.getRegionWidth(),
+                Asset.gameStageCompleteBox.getRegionHeight());
+
+        if (completeBoxBound.contains(touchPoint.x, touchPoint.y)) {
+            game.batcher.draw(Asset.gameStageCompleteBoxHover, Settings.WIDTH / 2 - Asset.gameStageCompleteBox.getRegionWidth() / 2, Settings.HEIGHT / 2 - Asset.gameStageCompleteBox.getRegionHeight() / 2);
+            if (Gdx.input.justTouched()) {
+                Asset.playSound(Asset.clickSound);
+                World.level++;
+                game.setScreen(new GameScreen(game));
+            }
+        } else {
+            game.batcher.draw(Asset.gameStageCompleteBox, Settings.WIDTH / 2 - Asset.gameStageCompleteBox.getRegionWidth() / 2, Settings.HEIGHT / 2 - Asset.gameStageCompleteBox.getRegionHeight() / 2);
+        }
+
     }
 
     private void presentGameOver() {
