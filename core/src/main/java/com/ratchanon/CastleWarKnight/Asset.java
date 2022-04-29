@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.ratchanon.CastleWarKnight.utils.Animator;
-import com.ratchanon.CastleWarKnight.utils.EntityAnimation;
+import com.ratchanon.CastleWarKnight.utils.EntityAsset;
 
 public class Asset {
 
@@ -48,18 +48,26 @@ public class Asset {
     public static TextureRegion castleRoof;
 
     // Entity
-    public static EntityAnimation knight;
-    public static EntityAnimation bat;
-    public static EntityAnimation wolf;
-    public static EntityAnimation golem;
-    public static EntityAnimation witch;
+    public static EntityAsset knight;
+    public static EntityAsset bat;
+    public static EntityAsset wolf;
+    public static EntityAsset golem;
+    public static EntityAsset witch;
 
     // Music and SoundEffect
     public static Music music;
-    public static Sound grabSound;
-    public static Sound fightSound;
-    public static Sound diedSound;
-    public static Sound gameOverSound;
+
+    // Sfx
+    public static Sound batAttack;
+    public static Sound batDeath;
+    public static Sound golemAttack;
+    public static Sound golemDeath;
+    public static Sound knightAttack;
+    public static Sound knightDeath;
+    public static Sound witchAttack;
+    public static Sound witchDeath;
+    public static Sound wolfAttack;
+    public static Sound wolfDeath;
 
     public static Sound clickSound;
 
@@ -102,46 +110,59 @@ public class Asset {
         castleLevel = castleAtlas.findRegion("cUnit");
         castleRoof = castleAtlas.findRegion("roof");
 
+
+        batAttack = Gdx.audio.newSound(Gdx.files.internal("song/Audio/Bat/Bat_Attack.mp3"));
+        batDeath = Gdx.audio.newSound(Gdx.files.internal("song/Audio/Bat/Bat_Dead.mp3"));
+        golemAttack = Gdx.audio.newSound(Gdx.files.internal("song/Audio/Golem/Golem_Attack.mp3"));
+        golemDeath = Gdx.audio.newSound(Gdx.files.internal("song/Audio/Golem/Golem_Dead.mp3"));
+        knightAttack = Gdx.audio.newSound(Gdx.files.internal("song/Audio/Player/Player_Attack.mp3"));
+        knightDeath = Gdx.audio.newSound(Gdx.files.internal("song/Audio/Player/Player_Dead_2.mp3"));
+        witchAttack = Gdx.audio.newSound(Gdx.files.internal("song/Audio/Witch/Witch_Attack.mp3"));
+        witchDeath = Gdx.audio.newSound(Gdx.files.internal("song/Audio/Witch/Witch_Dead.mp3"));
+        wolfAttack = Gdx.audio.newSound(Gdx.files.internal("song/Audio/Wolf/Wolf_Attack_2.mp3"));
+        wolfDeath = Gdx.audio.newSound(Gdx.files.internal("song/Audio/Wolf/Wolf_Dead.mp3"));
+
         entityAtlas = new TextureAtlas(Gdx.files.internal("entities.atlas"));
         entityRunAtlas = new TextureAtlas(Gdx.files.internal("entitiesRun.atlas"));
-        knight = new EntityAnimation(Animator.create(entityAtlas.findRegion("Knight/knightIdle"), 15),
+        knight = new EntityAsset(Animator.create(entityAtlas.findRegion("Knight/knightIdle"), 15),
                 Animator.create(entityAtlas.findRegion("Knight/knightAttack"), 22),
                 Animator.create(entityAtlas.findRegion("Knight/knightDeath"), 15),
-                Animator.create(entityRunAtlas.findRegion("KnightRun"), 8, 0.125f));
+                Animator.create(entityRunAtlas.findRegion("KnightRun"), 8, 0.125f), knightAttack, knightDeath);
 
-        bat = new EntityAnimation(Animator.create(entityAtlas.findRegion("Bat/batIdle"), 8),
+        bat = new EntityAsset(Animator.create(entityAtlas.findRegion("Bat/batIdle"), 8),
                 Animator.create(entityAtlas.findRegion("Bat/batAttack"), 10),
                 Animator.create(entityAtlas.findRegion("Bat/batDeath"), 10),
-                Animator.create(entityRunAtlas.findRegion("BatRun"), 8, 0.125f));
+                Animator.create(entityRunAtlas.findRegion("BatRun"), 8, 0.125f), batAttack, batDeath);
 
 
-        golem = new EntityAnimation(Animator.create(entityAtlas.findRegion("Golem/golemIdle"), 12),
+        golem = new EntityAsset(Animator.create(entityAtlas.findRegion("Golem/golemIdle"), 12),
                 Animator.create(entityAtlas.findRegion("Golem/golemAttack"), 16),
                 Animator.create(entityAtlas.findRegion("Golem/golemDeath"), 28),
-                Animator.create(entityRunAtlas.findRegion("GolemRun"), 7, 0.125f));
+                Animator.create(entityRunAtlas.findRegion("GolemRun"), 7, 0.125f), golemAttack, golemDeath);
 
 
-        witch = new EntityAnimation(Animator.create(entityAtlas.findRegion("Witch/witchIdle"), 7),
+        witch = new EntityAsset(Animator.create(entityAtlas.findRegion("Witch/witchIdle"), 7),
                 Animator.create(entityAtlas.findRegion("Witch/witchAttack"), 18),
                 Animator.create(entityAtlas.findRegion("Witch/witchDeath"), 12),
-                Animator.create(entityRunAtlas.findRegion("WitchRun"), 8, 0.125f));
+                Animator.create(entityRunAtlas.findRegion("WitchRun"), 8, 0.125f), witchAttack, witchDeath);
 
 
-        wolf = new EntityAnimation(Animator.create(entityAtlas.findRegion("Wolf/wolfIdle"), 12),
+        wolf = new EntityAsset(Animator.create(entityAtlas.findRegion("Wolf/wolfIdle"), 12),
                 Animator.create(entityAtlas.findRegion("Wolf/wolfAttack"), 16),
                 Animator.create(entityAtlas.findRegion("Wolf/wolfDeath"), 18),
-                Animator.create(entityRunAtlas.findRegion("WolfRun"), 8, 0.125f));
+                Animator.create(entityRunAtlas.findRegion("WolfRun"), 8, 0.125f), wolfAttack, wolfDeath);
 
 
         font = new BitmapFont(Gdx.files.internal("font.fnt"), Gdx.files.internal("font.png"), false);
         music = Gdx.audio.newMusic(Gdx.files.internal("song/Song_Skyrim_8-Bit.mp3"));
         music.setLooping(true);
-        music.setVolume(0.5f);
+        music.setVolume(0.3f);
 
         if (Settings.musicEnabled) {
-            music.play();
+            Asset.music.setVolume(0.1f);
+            Asset.music.play();
         } else {
-            music.pause();
+            Asset.music.pause();
         }
 
         clickSound = Gdx.audio.newSound(Gdx.files.internal("song/Audio/Others/Mouse Click.mp3"));
@@ -151,5 +172,9 @@ public class Asset {
 
     public static void playSound(Sound sound) {
         if (Settings.soundEnabled) sound.play(1);
+    }
+
+    public static void playSound(Sound sound, float volume) {
+        if (Settings.soundEnabled) sound.play(volume);
     }
 }
