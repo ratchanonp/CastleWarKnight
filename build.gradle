@@ -51,7 +51,7 @@ configure(subprojects) {
 }
 
 subprojects {
-    version = '1.0.0rc-1'
+    version = '1.0.0-rc.2'
     ext.appName = 'CastleWarKnight'
     repositories {
         mavenCentral()
