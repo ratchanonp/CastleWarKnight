@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.math.Rectangle;
 import com.ratchanon.CastleWarKnight.components.*;
 import com.ratchanon.CastleWarKnight.systems.RenderingSystem;
-import com.ratchanon.CastleWarKnight.utils.EntityAnimation;
+import com.ratchanon.CastleWarKnight.utils.EntityAsset;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -59,20 +59,20 @@ public class World {
         enemyCount++;
         int randomEntity = random.nextInt(4);
 
-        EntityAnimation anim;
+        EntityAsset entityAsset;
 
         switch (randomEntity) {
             case 0:
-                anim = Asset.bat;
+                entityAsset = Asset.bat;
                 break;
             case 1:
-                anim = Asset.golem;
+                entityAsset = Asset.golem;
                 break;
             case 2:
-                anim = Asset.witch;
+                entityAsset = Asset.witch;
                 break;
             default:
-                anim = Asset.wolf;
+                entityAsset = Asset.wolf;
                 break;
         }
 
@@ -87,6 +87,7 @@ public class World {
         StateComponent state = engine.createComponent(StateComponent.class);
         TextureComponent texture = engine.createComponent(TextureComponent.class);
         PointComponent point = engine.createComponent(PointComponent.class);
+        AudioComponent audio = engine.createComponent(AudioComponent.class);
 
         entityComponent.entityType = EntityComponent.TYPE_ENEMY;
 
@@ -94,9 +95,12 @@ public class World {
         point.point = enemyPoints.get(pointIndex);
         enemyPoints.remove(pointIndex);
 
-        animation.animations.put(EntityComponent.STATE_IDLE, anim.idle);
-        animation.animations.put(EntityComponent.STATE_ATTACK, anim.attack);
-        animation.animations.put(EntityComponent.STATE_DEATH, anim.death);
+        animation.animations.put(EntityComponent.STATE_IDLE, entityAsset.idle);
+        animation.animations.put(EntityComponent.STATE_ATTACK, entityAsset.attack);
+        animation.animations.put(EntityComponent.STATE_DEATH, entityAsset.death);
+
+        audio.sound.put(EntityComponent.STATE_ATTACK, entityAsset.attackSound);
+        audio.sound.put(EntityComponent.STATE_DEATH, entityAsset.deathSound);
 
         bounds.bounds.height = EntityComponent.HEIGHT;
         bounds.bounds.width = EntityComponent.WIDTH;
@@ -115,13 +119,14 @@ public class World {
         entity.add(state);
         entity.add(texture);
         entity.add(point);
+        entity.add(audio);
 
         engine.addEntity(entity);
 
         return entity;
     }
 
-    public Entity createEntity(int x, int y, EntityAnimation anim, int initState, boolean flip) {
+    public Entity createEntity(int x, int y, EntityAsset anim, int initState, boolean flip) {
         System.out.println("Create Entity");
         Entity entity = engine.createEntity();
 
@@ -161,7 +166,7 @@ public class World {
         return entity;
     }
 
-    public Entity createKnight(int x, int y, @NotNull EntityAnimation anim, int initState, boolean flip) {
+    public Entity createKnight(int x, int y, @NotNull EntityAsset entityAsset, int initState, boolean flip) {
         System.out.println("Create Knight" + playerPoint);
         Entity entity = engine.createEntity();
 
@@ -173,11 +178,15 @@ public class World {
         TextureComponent texture = engine.createComponent(TextureComponent.class);
         DragableComponent drag = engine.createComponent(DragableComponent.class);
         PointComponent point = engine.createComponent(PointComponent.class);
+        AudioComponent audio = engine.createComponent(AudioComponent.class);
 
-        animation.animations.put(EntityComponent.STATE_IDLE, anim.idle);
-        animation.animations.put(EntityComponent.STATE_ATTACK, anim.attack);
-        animation.animations.put(EntityComponent.STATE_DEATH, anim.death);
-        animation.animations.put(EntityComponent.STATE_RUN, anim.run);
+        animation.animations.put(EntityComponent.STATE_IDLE, entityAsset.idle);
+        animation.animations.put(EntityComponent.STATE_ATTACK, entityAsset.attack);
+        animation.animations.put(EntityComponent.STATE_DEATH, entityAsset.death);
+        animation.animations.put(EntityComponent.STATE_RUN, entityAsset.run);
+
+        audio.sound.put(EntityComponent.STATE_ATTACK, entityAsset.attackSound);
+        audio.sound.put(EntityComponent.STATE_DEATH, entityAsset.deathSound);
 
         point.point = playerPoint;
 
@@ -199,6 +208,7 @@ public class World {
         entity.add(texture);
         entity.add(drag);
         entity.add(point);
+        entity.add(audio);
 
         engine.addEntity(entity);
 
@@ -241,7 +251,7 @@ public class World {
         System.out.println("CastleLevel" + casteLevel);
 
         for (int i = 0; i <= casteLevel; i++) {
-            long score = random.nextLong(sumLevelScore - sumLevelScore / 2) + sumLevelScore / 2;
+            long score = (random.nextLong() % (sumLevelScore - sumLevelScore / 2)) + sumLevelScore / 2;
             sumLevelScore += score;
             enemyPoints.add(score);
         }
