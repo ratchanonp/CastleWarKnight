@@ -3,6 +3,7 @@ package com.ratchanon.CastleWarKnight.systems;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.ratchanon.CastleWarKnight.Asset;
 import com.ratchanon.CastleWarKnight.World;
 import com.ratchanon.CastleWarKnight.components.*;
 
@@ -14,11 +15,13 @@ public class FightSystem extends EntitySystem {
     private ComponentMapper<StateComponent> sm;
     private ComponentMapper<DragableComponent> dm;
     private ComponentMapper<AnimationComponent> am;
+    private ComponentMapper<EntityComponent> em;
     private Engine engine;
     private World world;
     private int isFinishedAttack = 0;
     private ImmutableArray<Entity> players;
     private ImmutableArray<Entity> enemies;
+    private ImmutableArray<Entity> items;
 
     public FightSystem(World world) {
         this.world = world;
@@ -28,6 +31,7 @@ public class FightSystem extends EntitySystem {
         dm = ComponentMapper.getFor(DragableComponent.class);
         pm = ComponentMapper.getFor(PointComponent.class);
         am = ComponentMapper.getFor(AnimationComponent.class);
+        em = ComponentMapper.getFor(EntityComponent.class);
     }
 
     @Override
@@ -35,7 +39,8 @@ public class FightSystem extends EntitySystem {
         this.engine = engine;
 
         players = engine.getEntitiesFor(Family.all(EntityComponent.class, DragableComponent.class).get());
-        enemies = engine.getEntitiesFor(Family.all(EntityComponent.class).exclude(DragableComponent.class).get());
+        enemies = engine.getEntitiesFor(Family.all(EntityComponent.class, AnimationComponent.class).exclude(DragableComponent.class).get());
+        items = engine.getEntitiesFor(Family.all(EntityComponent.class).exclude(AnimationComponent.class).get());
     }
 
     @Override
@@ -118,6 +123,23 @@ public class FightSystem extends EntitySystem {
                     world.state = World.WORLD_STATE_GAME_OVER;
                 }
 
+            }
+
+
+            for (int j = 0; j < items.size(); ++j) {
+                Entity item = items.get(j);
+
+                BoundsComponent itemBound = bm.get(item);
+                PointComponent itemPoint = pm.get(item);
+
+                if (!playerDrag.isDrag && playerBound.bounds.overlaps(itemBound.bounds)) {
+                    playerPoint.point += itemPoint.point;
+                    World.playerPoint += itemPoint.point;
+
+                    Asset.playSound(Asset.getItem, 0.5f);
+
+                    engine.removeEntity(item);
+                }
             }
         }
     }
