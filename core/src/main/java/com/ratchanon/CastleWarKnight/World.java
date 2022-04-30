@@ -2,6 +2,8 @@ package com.ratchanon.CastleWarKnight;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.ratchanon.CastleWarKnight.components.*;
 import com.ratchanon.CastleWarKnight.systems.RenderingSystem;
@@ -10,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class World {
     public static final int WORLD_STATE_RUNNING = 0;
@@ -34,6 +37,10 @@ public class World {
         enemyCount = 0;
         sumLevelScore = playerPoint;
         enemyPoints = new ArrayList<>();
+    }
+
+    public static long nextLongBetween(long min, long max) {
+        return ThreadLocalRandom.current().nextLong(min, max);
     }
 
     public void create() {
@@ -215,6 +222,43 @@ public class World {
         return entity;
     }
 
+    private void createItem(int x, int y, Texture tex) {
+        System.out.println("Create Items");
+        Entity entity = engine.createEntity();
+
+        EntityComponent entityComponent = engine.createComponent(EntityComponent.class);
+        BoundsComponent bounds = engine.createComponent(BoundsComponent.class);
+        TransformComponent position = engine.createComponent(TransformComponent.class);
+        TextureComponent texture = engine.createComponent(TextureComponent.class);
+        PointComponent point = engine.createComponent(PointComponent.class);
+        AudioComponent audio = engine.createComponent(AudioComponent.class);
+        StateComponent state = engine.createComponent(StateComponent.class);
+
+        point.point = playerPoint / 2;
+        sumLevelScore += playerPoint / 2;
+
+        bounds.bounds.height = EntityComponent.HEIGHT;
+        bounds.bounds.width = EntityComponent.WIDTH + 100;
+
+        position.pos.set(x, y, 0);
+
+        position.scale.set(1.5f, 1.5f);
+        state.set(StateComponent.STATE_IDLE);
+
+        texture.region = new TextureRegion(Asset.sword);
+
+
+        entity.add(entityComponent);
+        entity.add(bounds);
+        entity.add(position);
+        entity.add(texture);
+        entity.add(point);
+        entity.add(audio);
+        entity.add(state);
+
+        engine.addEntity(entity);
+    }
+
     private void createCamera() {
         System.out.println("Create Camera");
         Entity entity = engine.createEntity();
@@ -236,7 +280,14 @@ public class World {
         TransformComponent position = engine.createComponent(TransformComponent.class);
         TextureComponent texture = engine.createComponent(TextureComponent.class);
 
-        texture.region = Asset.background;
+        position.scale.set(0.5f, 0.65f);
+        position.pos.y = 0;
+
+        if (World.level / 5 % 2 == 1) {
+            texture.region = Asset.nightBackground;
+        } else {
+            texture.region = Asset.dayBackground;
+        }
 
         entity.add(background);
         entity.add(position);
@@ -250,18 +301,26 @@ public class World {
         System.out.println("Level" + World.level);
         System.out.println("CastleLevel" + casteLevel);
 
+        if (random.nextInt() % 2 == 0) {
+            createCastle(20 + Asset.castleLevel.getRegionWidth() / 2, 120, false, false);
+            createCastle(20 + Asset.castleLevel.getRegionWidth() / 2, 120 + 128, false, true);
+            createItem(20 + Asset.castleLevel.getRegionWidth() / 2, 120 + 128 - 20, Asset.sword);
+        } else {
+            createCastle(20 + Asset.castleLevel.getRegionWidth() / 2, 120, false, true);
+        }
+
         for (int i = 0; i <= casteLevel; i++) {
-            long score = (random.nextLong() % (sumLevelScore - sumLevelScore / 2)) + sumLevelScore / 2;
+
+            long score = nextLongBetween(sumLevelScore / 2, sumLevelScore);
             sumLevelScore += score;
             enemyPoints.add(score);
         }
 
         // Create Castle for knight
-        createCastle(20 + Asset.castleLevel.getRegionWidth() / 2, 120, false, true);
+
 
         for (int i = 0; i <= casteLevel; i++) {
             createCastle(Settings.WIDTH - Asset.castleLevel.getRegionWidth() / 2 - 20, 128 * i + 120, true, (i == casteLevel) ? true : false);
-
         }
 
     }
