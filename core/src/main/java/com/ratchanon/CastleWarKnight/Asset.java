@@ -18,8 +18,13 @@ public class Asset {
     public static TextureAtlas entityRunAtlas;
 
     public static TextureAtlas iconsAtlas;
+
+    public static TextureAtlas backgroundAtlas;
     public static TextureRegion background;
     public static Texture newBackground;
+
+    public static TextureRegion dayBackground;
+    public static TextureRegion nightBackground;
     public static TextureRegion logo;
 
     public static TextureRegion gameOverBox;
@@ -54,6 +59,8 @@ public class Asset {
     public static EntityAsset golem;
     public static EntityAsset witch;
 
+    public static Texture sword;
+
     // Music and SoundEffect
     public static Music music;
 
@@ -70,6 +77,8 @@ public class Asset {
     public static Sound wolfDeath;
 
     public static Sound clickSound;
+
+    public static Sound getItem;
 
     // Font
     public static BitmapFont font;
@@ -152,6 +161,13 @@ public class Asset {
                 Animator.create(entityAtlas.findRegion("Wolf/wolfDeath"), 18),
                 Animator.create(entityRunAtlas.findRegion("WolfRun"), 8, 0.125f), wolfAttack, wolfDeath);
 
+        backgroundAtlas = new TextureAtlas(Gdx.files.internal("background.atlas"));
+        dayBackground = backgroundAtlas.findRegion("DayMap");
+        nightBackground = backgroundAtlas.findRegion("NightMap");
+
+        sword = new Texture(Gdx.files.internal("iron_sword.png"));
+
+        getItem = Gdx.audio.newSound(Gdx.files.internal("song/get_item.mp3"));
 
         font = new BitmapFont(Gdx.files.internal("font.fnt"), Gdx.files.internal("font.png"), false);
         music = Gdx.audio.newMusic(Gdx.files.internal("song/Song_Skyrim_8-Bit.mp3"));
